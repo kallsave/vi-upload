@@ -2,13 +2,13 @@
   "name": "vi-upload",
   "version": "1.0.0",
   "description": "a mobile image upload plugin",
-  "main": "index.js",
+  "main": "dist/vi-upload.esm.js",
   "scripts": {
     "build:umd": "rollup -c build/config.js --environment TARGET:umd",
     "build:esm": "rollup -c build/config.js --environment TARGET:esm",
     "build": "node build/build.js"
   },
-  "keywords": [],
+  "keywords": ["mobile image upload", "native javascript"],
   "author": "kallsave",
   "license": "ISC",
   "devDependencies": {

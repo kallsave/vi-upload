@@ -1,5 +1,6 @@
 const path = require('path');
 const buble = require('rollup-plugin-buble');
+const babel = require('rollup-plugin-babel');
 const node = require('rollup-plugin-node-resolve');
 const cjs = require('rollup-plugin-commonjs');
 const postcss = require('rollup-plugin-postcss');
@@ -25,7 +26,6 @@ const builds = {
     input: resolve('src/index.js'),
     output: {
       file: resolve('dist/vi-upload.umd.js'),
-      // 直接引入
       format: 'umd',
       name: 'ViUpload',
     },
@@ -33,7 +33,7 @@ const builds = {
       postcss(),
       node(),
       cjs(),
-      buble(),
+      buble()
     ]
   }
 }
