@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script src="../dist/vi-upload.umd.js"></script>
+<body>
+  <div id="content"></div>
+</body>
+<script>
+  new ViUpload({
+    el: '#content',
+    max: 10,
+    maxSize: 3 * 1024 * 1024,
+    events: {
+      // 每次添加图片成功后的回调,这个函数不会对max, maxSize, auto过滤处理
+      // 这个函数适合做高度自定义的逻辑
+      addFiles(files) {
+        console.log(files)
+      },
+      // 这个函数会对图片做max, maxSize处理,过滤出符合条件的图片
+      changeFiles(files) {
+        console.log('change', files)
+      },
+      removeFiles(removeFiles) {
+        console.log('删除', removeFiles)
+      }
+    }
+  })
+</script>
+</html>
