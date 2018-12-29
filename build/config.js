@@ -4,6 +4,7 @@ const babel = require('rollup-plugin-babel');
 const node = require('rollup-plugin-node-resolve');
 const cjs = require('rollup-plugin-commonjs');
 const postcss = require('rollup-plugin-postcss');
+const minify = require('rollup-plugin-babel-minify');
 
 const resolve = (p) => {
   return path.resolve(__dirname, '../', p);
@@ -20,6 +21,7 @@ const builds = {
       postcss(),
       node(),
       cjs(),
+      minify()
     ]
   },
   umd: {
@@ -33,7 +35,8 @@ const builds = {
       postcss(),
       node(),
       cjs(),
-      buble()
+      buble(),
+      minify()
     ]
   }
 }
