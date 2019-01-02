@@ -5,6 +5,8 @@ const node = require('rollup-plugin-node-resolve');
 const cjs = require('rollup-plugin-commonjs');
 const postcss = require('rollup-plugin-postcss');
 const minify = require('rollup-plugin-babel-minify');
+const eslint = require('rollup-plugin-eslint').eslint;
+const autoprefixer = require('autoprefixer');
 
 const resolve = (p) => {
   return path.resolve(__dirname, '../', p);
@@ -18,10 +20,18 @@ const builds = {
       format: 'es',
     },
     plugins: [
-      postcss(),
+      eslint({
+        include: [
+          resolve('src/**/*.js')
+        ]
+      }),
+      postcss({
+        plugins: [
+          autoprefixer()
+        ]
+      }),
       node(),
       cjs(),
-      minify()
     ]
   },
   umd: {
@@ -32,11 +42,43 @@ const builds = {
       name: 'ViUpload',
     },
     plugins: [
-      postcss(),
+      eslint({
+        include: [
+          resolve('src/**/*.js')
+        ]
+      }),
+      postcss({
+        plugins: [
+          autoprefixer()
+        ]
+      }),
       node(),
       cjs(),
       buble(),
-      minify()
+    ]
+  },
+  min: {
+    input: resolve('src/index.js'),
+    output: {
+      file: resolve('dist/vi-upload.min.js'),
+      format: 'umd',
+      name: 'ViUpload',
+    },
+    plugins: [
+      eslint({
+        include: [
+          resolve('src/**/*.js')
+        ]
+      }),
+      postcss({
+        plugins: [
+          autoprefixer()
+        ]
+      }),
+      node(),
+      cjs(),
+      buble(),
+      minify(),
     ]
   }
 }

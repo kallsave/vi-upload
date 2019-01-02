@@ -1,6 +1,6 @@
 
 import ViEvent from './helpers/event.js'
-import './modules/style/vi-upload.css'
+import './modules/style/vi-upload.styl'
 import {
   mulitDeepClone,
   addClass,
