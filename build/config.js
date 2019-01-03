@@ -25,11 +25,7 @@ const builds = {
           resolve('src/**/*.js')
         ]
       }),
-      postcss({
-        plugins: [
-          autoprefixer()
-        ]
-      }),
+      postcss(),
       node(),
       cjs(),
     ]
@@ -47,14 +43,13 @@ const builds = {
           resolve('src/**/*.js')
         ]
       }),
-      postcss({
-        plugins: [
-          autoprefixer()
-        ]
-      }),
+      postcss(),
       node(),
       cjs(),
       buble(),
+      babel({
+        plugins: ['external-helpers'],
+      }),
     ]
   },
   min: {
@@ -70,14 +65,13 @@ const builds = {
           resolve('src/**/*.js')
         ]
       }),
-      postcss({
-        plugins: [
-          autoprefixer()
-        ]
-      }),
+      postcss(),
       node(),
       cjs(),
-      buble(),
+      // buble(),
+      babel({
+        plugins: ['external-helpers'],
+      }),
       minify(),
     ]
   }
