@@ -6,7 +6,6 @@ const cjs = require('rollup-plugin-commonjs');
 const postcss = require('rollup-plugin-postcss');
 const minify = require('rollup-plugin-babel-minify');
 const eslint = require('rollup-plugin-eslint').eslint;
-const autoprefixer = require('autoprefixer');
 
 const resolve = (p) => {
   return path.resolve(__dirname, '../', p);
@@ -46,9 +45,14 @@ const builds = {
       postcss(),
       node(),
       cjs(),
-      buble(),
       babel({
-        plugins: ['external-helpers'],
+        "plugins": [
+          "external-helpers",
+          "transform-runtime"
+        ],
+        exclude: resolve('node_modules/**'),
+        runtimeHelpers: true,
+        externalHelpers: true
       }),
     ]
   },
@@ -68,9 +72,14 @@ const builds = {
       postcss(),
       node(),
       cjs(),
-      // buble(),
       babel({
-        plugins: ['external-helpers'],
+        "plugins": [
+          "external-helpers",
+          "transform-runtime"
+        ],
+        exclude: resolve('node_modules/**'),
+        runtimeHelpers: true,
+        externalHelpers: true
       }),
       minify(),
     ]

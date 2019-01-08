@@ -3,11 +3,18 @@ import ViEvent from './helpers/event.js'
 import './modules/style/vi-upload.styl'
 import {
   mulitDeepClone,
-  addClass,
-  createURL,
-  prependChild,
   observeProperty
 } from './helpers/utils.js'
+
+import {
+  addClass,
+  prependChild
+} from './helpers/dom.js'
+
+import {
+  createURL,
+  getBase64
+} from './helpers/bom.js'
 
 const DEFAULT_OPTIONS = {
   // 容器
@@ -113,17 +120,26 @@ export default class ViUpload {
       let addFiles = []
       let i = 0
       let file = files[i]
+      let promiseList = []
       while (addFiles.length < files.length && file) {
-        let url = createURL(file)
+        let currentFile = file
+        let url = createURL(currentFile)
+        currentFile.url = url
+        let promise = getBase64(url).then((res) => {
+          currentFile.base64 = res
+        })
+        promiseList.push(promise)
         addFiles.push(file)
-        file.url = url
         file = files[++i]
       }
-      this.ViEvent.emit(EVENT_ADD_FILES, addFiles)
-      this.createImg(addFiles)
+      Promise.all([...promiseList]).then(() => {
+        console.log('都加载完毕')
+        this.ViEvent.emit(EVENT_ADD_FILES, addFiles)
+        this.showImg(addFiles)
+      })
     }
   }
-  createImg(addFiles) {
+  showImg(addFiles) {
     let newFiles = []
     let i = 0
     let file = addFiles[i]

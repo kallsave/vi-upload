@@ -47,24 +47,6 @@ function styleInject(css, ref) {
 var css = ".vi-upload-input-wrapper {\n  float: left;\n  overflow: hidden;\n}\n.vi-upload-input-wrapper .vi-upload-input-wrapper-box {\n  position: relative;\n  width: 80px;\n  height: 80px;\n  margin: 0 10px 10px 0;\n  box-sizing: border-box;\n  background-color: #fff;\n  box-shadow: 0 0 6px 2px rgba(0,0,0,0.08);\n  border-radius: 2px;\n}\n.vi-upload-input-wrapper .vi-upload-input-wrapper-box:before {\n  content: \"\";\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 20px;\n  height: 2px;\n  background-color: #666;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n}\n.vi-upload-input-wrapper .vi-upload-input-wrapper-box:after {\n  content: \"\";\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 20px;\n  height: 2px;\n  background-color: #666;\n  -webkit-transform: translate(-50%, -50%) rotate(90deg);\n          transform: translate(-50%, -50%) rotate(90deg);\n}\n.vi-upload-input-wrapper .vi-upload-input-wrapper-box .vi-upload-input {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  width: 100%;\n  font-size: 0;\n  opacity: 0;\n}\n.vi-upload-file {\n  float: left;\n  margin: 0 10px 10px 0;\n}\n.vi-upload-file .vi-upload-file-box {\n  position: relative;\n  width: 80px;\n  height: 80px;\n  box-sizing: border-box;\n  background-color: #fff;\n  box-shadow: 0 0 6px 2px rgba(0,0,0,0.08);\n  border-radius: 2px;\n  background-size: cover;\n}\n.vi-upload-file .vi-upload-file-box .vi-upload-file-delete {\n  position: absolute;\n  z-index: 2;\n  top: -36px;\n  right: -36px;\n  width: 80px;\n  height: 80px;\n  background: #000;\n  border-radius: 50%;\n  -webkit-transform: scale(0.25);\n          transform: scale(0.25);\n}\n.vi-upload-file .vi-upload-file-box .vi-upload-file-delete:before {\n  content: '';\n  position: absolute;\n  width: 6px;\n  height: 45px;\n  top: 50%;\n  left: 50%;\n  border-radius: 6px;\n  background-color: #fff;\n  -webkit-transform: translate(-50%, -50%) rotate(135deg);\n          transform: translate(-50%, -50%) rotate(135deg);\n}\n.vi-upload-file .vi-upload-file-box .vi-upload-file-delete:after {\n  content: '';\n  position: absolute;\n  width: 6px;\n  height: 45px;\n  top: 50%;\n  left: 50%;\n  border-radius: 6px;\n  background-color: #fff;\n  -webkit-transform: translate(-50%, -50%) rotate(-135deg);\n          transform: translate(-50%, -50%) rotate(-135deg);\n}\n";
 styleInject(css);
 
-function hasClass(el, className) {
-  const reg = new RegExp('(^|\\s)' + className + '(\\s|$)');
-  return reg.test(el.className)
-}
-
-function addClass(el, className) {
-  /* istanbul ignore if */
-  if (hasClass(el, className)) {
-    return
-  }
-
-  const newClass = el.className.split(' ');
-  newClass.push(className);
-  el.className = newClass.join(' ');
-}
-
-
-
 function checkClass(o) {
   return Object.prototype.toString.call(o).slice(8, -1)
 }
@@ -129,22 +111,6 @@ function mulitDeepClone(target, ...rest) {
   return target
 }
 
-function createURL(file) {
-  const URL = window.URL || window.webkitURL || window.mozURL;
-  if (file && URL) {
-    return URL.createObjectURL(file)
-  }
-  return ''
-}
-
-function prependChild(parent, newChild, beforeChild) {
-  if (parent.children[0]) {
-    parent.insertBefore(newChild, beforeChild);
-  } else {
-    parent.appendChild(newChild);
-  }
-}
-
 function observeProperty(obj, key, fn) {
   var val = obj[key];
   Object.defineProperty(obj, key, {
@@ -161,6 +127,57 @@ function observeProperty(obj, key, fn) {
       }
     }
   });
+}
+
+function hasClass(el, className) {
+  const reg = new RegExp('(^|\\s)' + className + '(\\s|$)');
+  return reg.test(el.className)
+}
+
+function addClass(el, className) {
+  /* istanbul ignore if */
+  if (hasClass(el, className)) {
+    return
+  }
+
+  const newClass = el.className.split(' ');
+  newClass.push(className);
+  el.className = newClass.join(' ');
+}
+
+function prependChild(parent, newChild, beforeChild) {
+  if (parent.children[0]) {
+    parent.insertBefore(newChild, beforeChild);
+  } else {
+    parent.appendChild(newChild);
+  }
+}
+
+function createURL(file) {
+  const URL = window.URL || window.webkitURL || window.mozURL;
+  if (file && URL) {
+    return URL.createObjectURL(file)
+  }
+  return ''
+}
+
+function getBase64(url) {
+  return new Promise((resolve) => {
+    const Image = window.Image;
+    let image = new Image();
+    image.setAttribute('crossOrigin', 'anonymous');
+    image.src = url;
+    image.onload = () => {
+      let canvas = document.createElement('canvas');
+      canvas.width = image.width;
+      canvas.height = image.height;
+      let context = canvas.getContext('2d');
+      context.drawImage(image, 0, 0, image.width, image.height);
+      let base64 = canvas.toDataURL('image/png');
+      image = null;
+      resolve(base64);
+    };
+  })
 }
 
 const DEFAULT_OPTIONS = {
@@ -267,17 +284,26 @@ class ViUpload {
       let addFiles = [];
       let i = 0;
       let file = files[i];
+      let promiseList = [];
       while (addFiles.length < files.length && file) {
-        let url = createURL(file);
+        let currentFile = file;
+        let url = createURL(currentFile);
+        currentFile.url = url;
+        let promise = getBase64(url).then((res) => {
+          currentFile.base64 = res;
+        });
+        promiseList.push(promise);
         addFiles.push(file);
-        file.url = url;
         file = files[++i];
       }
-      this.ViEvent.emit(EVENT_ADD_FILES, addFiles);
-      this.createImg(addFiles);
+      Promise.all([...promiseList]).then(() => {
+        console.log('都加载完毕');
+        this.ViEvent.emit(EVENT_ADD_FILES, addFiles);
+        this.showImg(addFiles);
+      });
     };
   }
-  createImg(addFiles) {
+  showImg(addFiles) {
     let newFiles = [];
     let i = 0;
     let file = addFiles[i];
