@@ -3,11 +3,11 @@
 module.exports = {
   root: true,
   parserOptions: {
-    "ecmaVersion": 6,
+    'ecmaVersion': 6,
   },
   env: {
-    "node": true,
-    "commonjs": true,
+    'node': true,
+    'commonjs': true,
   },
   extends: [
     // https://github.com/standard/standard/blob/master/docs/RULES-en.md
@@ -16,13 +16,17 @@ module.exports = {
   // add your custom rules here
   rules: {
     'arrow-parens': 'off',
-    "comma-dangle": ["off"],
+    'comma-dangle': ['off'],
     'eol-last': 'off',
     // allow async-await
     'generator-star-spacing': 'off',
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'space-before-function-paren': 'off',
+    'space-before-function-paren': ['error', {
+      'anonymous': 'always',
+      'named': 'never',
+      'asyncArrow': 'always'
+    }],
     'no-unused-vars': 'off'
   }
 }
