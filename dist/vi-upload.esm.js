@@ -44,7 +44,7 @@ function styleInject(css, ref) {
   }
 }
 
-var css = ".vi-upload-input-wrapper {\n  float: left;\n  overflow: hidden;\n}\n.vi-upload-input-wrapper .vi-upload-input-wrapper-box {\n  position: relative;\n  width: 80px;\n  height: 80px;\n  margin: 0 10px 10px 0;\n  box-sizing: border-box;\n  background-color: #fff;\n  box-shadow: 0 0 6px 2px rgba(0,0,0,0.08);\n  border-radius: 2px;\n}\n.vi-upload-input-wrapper .vi-upload-input-wrapper-box:before {\n  content: \"\";\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 20px;\n  height: 2px;\n  background-color: #666;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n}\n.vi-upload-input-wrapper .vi-upload-input-wrapper-box:after {\n  content: \"\";\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 20px;\n  height: 2px;\n  background-color: #666;\n  -webkit-transform: translate(-50%, -50%) rotate(90deg);\n          transform: translate(-50%, -50%) rotate(90deg);\n}\n.vi-upload-input-wrapper .vi-upload-input-wrapper-box .vi-upload-input {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  width: 100%;\n  font-size: 0;\n  opacity: 0;\n}\n.vi-upload-file {\n  float: left;\n  margin: 0 10px 10px 0;\n}\n.vi-upload-file .vi-upload-file-box {\n  position: relative;\n  width: 80px;\n  height: 80px;\n  box-sizing: border-box;\n  background-color: #fff;\n  box-shadow: 0 0 6px 2px rgba(0,0,0,0.08);\n  border-radius: 2px;\n  background-size: cover;\n}\n.vi-upload-file .vi-upload-file-box .vi-upload-file-delete {\n  position: absolute;\n  z-index: 2;\n  top: -36px;\n  right: -36px;\n  width: 80px;\n  height: 80px;\n  background: #000;\n  border-radius: 50%;\n  -webkit-transform: scale(0.25);\n          transform: scale(0.25);\n}\n.vi-upload-file .vi-upload-file-box .vi-upload-file-delete:before {\n  content: '';\n  position: absolute;\n  width: 6px;\n  height: 45px;\n  top: 50%;\n  left: 50%;\n  border-radius: 6px;\n  background-color: #fff;\n  -webkit-transform: translate(-50%, -50%) rotate(135deg);\n          transform: translate(-50%, -50%) rotate(135deg);\n}\n.vi-upload-file .vi-upload-file-box .vi-upload-file-delete:after {\n  content: '';\n  position: absolute;\n  width: 6px;\n  height: 45px;\n  top: 50%;\n  left: 50%;\n  border-radius: 6px;\n  background-color: #fff;\n  -webkit-transform: translate(-50%, -50%) rotate(-135deg);\n          transform: translate(-50%, -50%) rotate(-135deg);\n}\n";
+var css = ".vi-upload-input-wrapper {\n  display: inline-block;\n  margin: 0 10px 10px 0;\n}\n.vi-upload-input-wrapper .vi-upload-input-wrapper-box {\n  position: relative;\n  width: 80px;\n  height: 80px;\n  box-sizing: border-box;\n  background-color: #fff;\n  box-shadow: 0 0 6px 2px rgba(0,0,0,0.08);\n  border-radius: 2px;\n}\n.vi-upload-input-wrapper .vi-upload-input-wrapper-box:before {\n  content: \"\";\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 20px;\n  height: 2px;\n  background-color: #666;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n}\n.vi-upload-input-wrapper .vi-upload-input-wrapper-box:after {\n  content: \"\";\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 20px;\n  height: 2px;\n  background-color: #666;\n  -webkit-transform: translate(-50%, -50%) rotate(90deg);\n          transform: translate(-50%, -50%) rotate(90deg);\n}\n.vi-upload-input-wrapper .vi-upload-input-wrapper-box .vi-upload-input {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  width: 100%;\n  font-size: 0;\n  opacity: 0;\n}\n.vi-upload-file {\n  display: inline-block;\n  margin: 0 10px 10px 0;\n}\n.vi-upload-file .vi-upload-file-box {\n  position: relative;\n  width: 80px;\n  height: 80px;\n  box-sizing: border-box;\n  background-color: #fff;\n  box-shadow: 0 0 6px 2px rgba(0,0,0,0.08);\n  border-radius: 2px;\n  background-size: cover;\n}\n.vi-upload-file .vi-upload-file-box .vi-upload-file-delete {\n  position: absolute;\n  z-index: 2;\n  top: -36px;\n  right: -36px;\n  width: 80px;\n  height: 80px;\n  background: #000;\n  border-radius: 50%;\n  -webkit-transform: scale(0.25);\n          transform: scale(0.25);\n}\n.vi-upload-file .vi-upload-file-box .vi-upload-file-delete:before {\n  content: '';\n  position: absolute;\n  width: 6px;\n  height: 45px;\n  top: 50%;\n  left: 50%;\n  border-radius: 6px;\n  background-color: #fff;\n  -webkit-transform: translate(-50%, -50%) rotate(135deg);\n          transform: translate(-50%, -50%) rotate(135deg);\n}\n.vi-upload-file .vi-upload-file-box .vi-upload-file-delete:after {\n  content: '';\n  position: absolute;\n  width: 6px;\n  height: 45px;\n  top: 50%;\n  left: 50%;\n  border-radius: 6px;\n  background-color: #fff;\n  -webkit-transform: translate(-50%, -50%) rotate(-135deg);\n          transform: translate(-50%, -50%) rotate(-135deg);\n}\n";
 styleInject(css);
 
 function hasClass(el, className) {
@@ -63,8 +63,6 @@ function addClass(el, className) {
   el.className = newClass.join(' ');
 }
 
-
-
 function checkClass(o) {
   return Object.prototype.toString.call(o).slice(8, -1)
 }
@@ -82,14 +80,7 @@ function deepClone(o) {
 
   for (let key in o) {
     let copy = o[key];
-    let instance = checkClass(copy);
-    if (instance === 'Object') {
-      ret[key] = deepClone(copy);
-    } else if (instance === 'Array') {
-      ret[key] = deepClone(copy);
-    } else {
-      ret[key] = copy;
-    }
+    ret[key] = deepClone(copy);
   }
 
   return ret
@@ -194,8 +185,8 @@ class ViUpload {
     this.watch();
   }
   checkType() {
-    if (!/#.+/.test(this.options.el)) {
-      console.error(`type check failed for options "el". please use id selector`);
+    if (!(this.options.el instanceof window.HTMLElement)) {
+      console.error(`type check failed for options "el".`);
     }
     if (typeof this.options.maxSize !== 'number') {
       console.error(`type check failed for options "maxSize".`);
@@ -205,8 +196,7 @@ class ViUpload {
     }
   }
   initWrapper() {
-    let elementName = this.options.el.slice(1);
-    this.el = document.getElementById(elementName);
+    this.el = this.options.el;
     if (!this.el) {
       console.error(`cannot find selector #${this.el}.`);
       return false
@@ -242,7 +232,7 @@ class ViUpload {
   watchRestImgLength() {
     observeProperty(this, 'restImgLength', (newVal) => {
       if (newVal > 0) {
-        this.inputWrapper.style.display = 'block';
+        this.inputWrapper.style.display = '';
       } else {
         this.inputWrapper.style.display = 'none';
       }

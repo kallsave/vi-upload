@@ -30,7 +30,7 @@ async function buildEntry() {
 
 ;(async () => {
   await buildEntry()
-  if (process.env.NODE_ENV === 'develop') {
+  if (process.env.NODE_ENV === 'development') {
     portfinder.getPort((err, port) => {
       if (err) {
         console.log(err)
@@ -45,7 +45,7 @@ async function buildEntry() {
           notify: false,
           files: [
             {
-              match: [resolve('src/**')],
+              match: [resolve('src/**'), resolve('examples/**')],
               async fn() {
                 await buildEntry()
                 browserSync.reload()

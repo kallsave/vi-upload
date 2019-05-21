@@ -40,8 +40,8 @@ export default class ViUpload {
     this.watch()
   }
   checkType() {
-    if (!/#.+/.test(this.options.el)) {
-      console.error(`type check failed for options "el". please use id selector`)
+    if (!(this.options.el instanceof window.HTMLElement)) {
+      console.error(`type check failed for options "el".`)
     }
     if (typeof this.options.maxSize !== 'number') {
       console.error(`type check failed for options "maxSize".`)
@@ -51,8 +51,7 @@ export default class ViUpload {
     }
   }
   initWrapper() {
-    let elementName = this.options.el.slice(1)
-    this.el = document.getElementById(elementName)
+    this.el = this.options.el
     if (!this.el) {
       console.error(`cannot find selector #${this.el}.`)
       return false
@@ -88,7 +87,7 @@ export default class ViUpload {
   watchRestImgLength() {
     observeProperty(this, 'restImgLength', (newVal) => {
       if (newVal > 0) {
-        this.inputWrapper.style.display = 'block'
+        this.inputWrapper.style.display = ''
       } else {
         this.inputWrapper.style.display = 'none'
       }

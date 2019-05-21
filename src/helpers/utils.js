@@ -41,14 +41,7 @@ export function deepClone(o) {
 
   for (let key in o) {
     let copy = o[key]
-    let instance = checkClass(copy)
-    if (instance === 'Object') {
-      ret[key] = deepClone(copy)
-    } else if (instance === 'Array') {
-      ret[key] = deepClone(copy)
-    } else {
-      ret[key] = copy
-    }
+    ret[key] = deepClone(copy)
   }
 
   return ret

@@ -9,12 +9,14 @@
 <script src="../dist/vi-upload.umd.js"></script>
 <body>
   <div id="content"></div>
+  <div style="width:200px; height: 200px; background: red"></div>
 </body>
 <script>
+  let el = document.getElementById('content')
+
   new ViUpload({
-    // 只支持id选择器
-    el: '#content',
-    max: 10,
+    el: el,
+    max: 5,
     maxSize: 3 * 1024 * 1024,
     events: {
       // 每次添加图片成功后的回调,这个函数不会对max, maxSize, auto过滤处理
